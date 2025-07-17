@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, Loader2, Mail, Lock, AlertCircle, CheckCircle } from "lucide-react";
+import { EnvVarWarning } from "./env-var-warning";
 
 export function LoginForm({
   className,
@@ -22,11 +23,25 @@ export function LoginForm({
   const [success, setSuccess] = useState(false);
   const router = useRouter();
 
+  // 检查环境变量
+  const hasEnvVars = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
   // 预热连接
   useEffect(() => {
-    const client = createClient();
-    client.auth.getSession().catch(() => {});
+    if (hasEnvVars) {
+      try {
+        const client = createClient();
+        client.auth.getSession().catch(() => {});
+      } catch (error) {
+        console.warn('预热连接失败:', error);
+      }
+    }
   }, []);
+
+  // 如果环境变量未配置，显示警告
+  if (!hasEnvVars) {
+    return <EnvVarWarning />;
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

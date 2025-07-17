@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import TodoClient from '@/components/todo-client'
+import AuthenticatedTodoApp from '@/components/authenticated-todo-app'
 
 export default async function ProtectedPage() {
   const supabase = await createClient()
@@ -14,10 +14,6 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <div className="w-full max-w-4xl animate-in">
-        <TodoClient />
-      </div>
-    </div>
+    <AuthenticatedTodoApp user={user} />
   )
 }
