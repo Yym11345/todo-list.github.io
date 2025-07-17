@@ -63,6 +63,7 @@ export default function TodoClient() {
   const channelRef = useRef<RealtimeChannel | null>(null) // 使用ref存储channel引用
   const todosContainerRef = useRef<HTMLDivElement>(null) // 任务列表容器引用
   const initialLoadAttempted = useRef(false) // 跟踪是否已尝试初始加载
+  const [connectionError, setConnectionError] = useState<string | null>(null)
 
   const supabase = createClient()
 
@@ -77,6 +78,7 @@ export default function TodoClient() {
   useEffect(() => {
     const checkUser = async () => {
       try {
+        setConnectionError(null)
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
           setUser(user)
@@ -86,6 +88,7 @@ export default function TodoClient() {
         }
       } catch (error) {
         console.error('获取用户信息失败:', error)
+        setConnectionError('连接失败，请检查网络后重试')
         setError('获取用户信息失败，请重新登录')
       }
     }
@@ -344,6 +347,22 @@ export default function TodoClient() {
     <div className="w-full p-4 max-w-4xl mx-auto">
       {/* 连接状态指示器 */}
       {renderConnectionStatus()}
+      
+      {/* 连接错误提示 */}
+      {connectionError && (
+        <div className="p-3 mb-4 rounded-md bg-red-100 text-red-800 flex items-center justify-between">
+          <span>{connectionError}</span>
+          <button 
+            onClick={() => {
+              setConnectionError(null)
+              window.location.reload()
+            }}
+            className="ml-2 px-3 py-1 bg-red-200 hover:bg-red-300 rounded text-sm"
+          >
+            重试
+          </button>
+        </div>
+      )}
       
       {/* 添加任务输入框 */}
       <div className="flex gap-2 mb-6">

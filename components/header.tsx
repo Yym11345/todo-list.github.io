@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { Home, Moon, Sun } from "lucide-react";
+import { Home, Moon, Sun, Sparkles } from "lucide-react";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -41,7 +41,8 @@ export default function Header() {
               isDark 
                 ? 'from-purple-400 via-pink-400 to-indigo-400' 
                 : 'from-indigo-600 via-purple-600 to-pink-600'
-            } bg-clip-text text-transparent`}>
+            } bg-clip-text text-transparent flex items-center gap-2`}>
+              <Sparkles className="w-5 h-5" />
               超级Todo
             </h1>
           </Link>

@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import TodoClient from '@/components/todo-client'
-import { initStorage } from '@/lib/supabase/storage'
 
 export default async function ProtectedPage() {
   const supabase = await createClient()
@@ -12,14 +11,6 @@ export default async function ProtectedPage() {
 
   if (!user) {
     return redirect('/auth/login')
-  }
-
-  // 初始化存储桶
-  try {
-    await initStorage()
-  } catch (error) {
-    console.error('初始化存储桶失败:', error)
-    // 继续加载页面，不阻止用户使用
   }
 
   return (

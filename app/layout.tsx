@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Header from "@/components/header";
+import { Suspense } from "react";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -44,7 +45,13 @@ export default function RootLayout({
             
             <Header />
             <div className="pt-16">
-          {children}
+              <Suspense fallback={
+                <div className="flex items-center justify-center min-h-[50vh]">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                </div>
+              }>
+                {children}
+              </Suspense>
             </div>
           </div>
         </ThemeProvider>
