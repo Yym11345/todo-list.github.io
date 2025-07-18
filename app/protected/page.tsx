@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import AuthenticatedTodoApp from '@/components/authenticated-todo-app'
+import TodoClient from '@/components/todo-client'
 
 export default async function ProtectedPage() {
   const supabase = await createClient()
@@ -14,6 +14,6 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <AuthenticatedTodoApp user={user} />
+    <TodoClient user={user} />
   )
 }
