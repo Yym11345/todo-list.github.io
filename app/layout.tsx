@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Header from "@/components/header";
 import { Suspense } from "react";
+import ConnectionStatus from "@/components/connection-status";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -55,6 +56,7 @@ export default function RootLayout({
             </div>
           </div>
         </ThemeProvider>
+        <ConnectionStatus />
       </body>
     </html>
   );
